@@ -1,0 +1,316 @@
+/* Botanical details and paper-like depth for the editorial layout. */
+.hero {
+  background-image:
+    radial-gradient(ellipse at 73% 15%, rgba(217, 162, 162, .28), transparent 38%),
+    radial-gradient(ellipse at 5% 82%, rgba(191, 125, 128, .13), transparent 34%),
+    linear-gradient(119deg, #fbf7f2 0%, #f8f3ee 45%, #f4e8e2 100%);
+}
+.region-section {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(circle at 87% 18%, rgba(217, 162, 162, .21), transparent 34%),
+    linear-gradient(150deg, #fffdfa 0%, #fcf8f4 58%, #f5ebe3 100%);
+  background-position: calc(100% + 90px) 40%, center, center;
+  background-size: 330px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+.approach-section {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 78% 25%, rgba(217, 162, 162, .16), transparent 43%),
+    linear-gradient(115deg, #f8f3ee, #f4e9e3 100%);
+  background-position: -155px 105%, center, center;
+  background-size: 350px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+.areas-section {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 9% 19%, rgba(255, 255, 255, .76), transparent 36%),
+    radial-gradient(ellipse at 89% 92%, rgba(191, 125, 128, .13), transparent 31%),
+    linear-gradient(150deg, #f1e7df, #f5eae3 58%, #eadbd2);
+  background-position: -135px 53%, center, center, center;
+  background-size: 300px auto, cover, cover, cover;
+  background-repeat: no-repeat;
+}
+.consultations-section {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 79% 14%, rgba(217, 162, 162, .17), transparent 34%),
+    radial-gradient(ellipse at 10% 100%, rgba(191, 125, 128, .12), transparent 38%),
+    linear-gradient(120deg, #fdf9f5, #f7eee8);
+  background-position: calc(100% + 155px) 81%, center, center, center;
+  background-size: 380px auto, cover, cover, cover;
+  background-repeat: no-repeat;
+}
+.process-section {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 16% 81%, rgba(217, 162, 162, .13), transparent 32%),
+    linear-gradient(125deg, #faf5f0, #f5ede7);
+  background-position: calc(100% + 105px) 27%, center, center;
+  background-size: 255px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+.femform-section {
+  background-image:
+    radial-gradient(ellipse at 9% 8%, rgba(255, 248, 242, .11), transparent 35%),
+    radial-gradient(ellipse at 96% 98%, rgba(93, 43, 48, .16), transparent 41%),
+    linear-gradient(130deg, #af6b70, #a75f64 55%, #9b565d);
+}
+.femform-section:after {
+  right: -3%; top: -27%; width: 44%; height: 135%;
+  background: url("flower-wash.svg") center / contain no-repeat;
+  filter: brightness(2.1) saturate(.6);
+  opacity: .27;
+  transform: rotate(10deg);
+}
+.book-section {
+  padding-block: 76px;
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 85% 20%, rgba(217, 162, 162, .24), transparent 41%),
+    radial-gradient(ellipse at 12% 85%, rgba(230, 205, 191, .4), transparent 38%),
+    linear-gradient(145deg, #fdf9f5, #f8eee8 100%);
+  background-position: calc(100% + 105px) 65%, center, center, center;
+  background-size: 350px auto, cover, cover, cover;
+  background-repeat: no-repeat;
+}
+.about-section {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 24% 75%, rgba(217, 162, 162, .15), transparent 38%),
+    linear-gradient(135deg, #f4e8df, #fbf5ef 72%, #f2e4db);
+  background-position: calc(100% + 160px) 91%, center, center;
+  background-size: 370px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+.faq-section {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 12% 86%, rgba(217, 162, 162, .12), transparent 36%),
+    linear-gradient(140deg, #fffdf9, #f8f0ea);
+  background-position: calc(100% + 125px) 80%, center, center;
+  background-size: 315px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+.final-cta {
+  background-image:
+    radial-gradient(ellipse at 17% 84%, rgba(217, 162, 162, .23), transparent 40%),
+    radial-gradient(ellipse at 87% 8%, rgba(255, 255, 255, .48), transparent 32%),
+    linear-gradient(125deg, #f6ece6, #f0ded5);
+}
+
+/* Small motifs use the same plant vocabulary without obscuring content. */
+.region-panel::after,
+.consultation-card::after {
+  content: "";
+  position: absolute;
+  right: -80px;
+  bottom: -135px;
+  width: 245px;
+  height: 310px;
+  background: url("flower-wash.svg") center / contain no-repeat;
+  opacity: .42;
+  pointer-events: none;
+}
+.region-panel::after { right: -100px; bottom: -178px; }
+.consultation-card::after { opacity: .22; }
+.section-intro .eyebrow::before,
+.approach-heading .eyebrow::before,
+.book-content .eyebrow::before,
+.about-copy .eyebrow::before,
+.faq-heading .eyebrow::before {
+  content: "";
+  display: inline-block;
+  width: 24px;
+  height: 1px;
+  margin: 0 12px 4px 0;
+  background: currentColor;
+  opacity: .68;
+}
+.consultation-card { box-shadow: 0 23px 70px rgba(74, 53, 48, .075), inset 0 1px rgba(255, 255, 255, .55); }
+.region-panel { box-shadow: 0 23px 68px rgba(74, 53, 48, .07), inset 0 1px rgba(255, 255, 255, .6); }
+
+/* Button labels stay optically centered while the arrow has its own fine ring. */
+.button {
+  isolation: isolate;
+  overflow: hidden;
+  min-height: 62px;
+  padding: 14px 48px;
+  box-shadow: 0 13px 28px rgba(91, 55, 56, .09);
+}
+.button::before {
+  content: "";
+  position: absolute;
+  inset: 1px;
+  border-radius: inherit;
+  border-top: 1px solid rgba(255, 255, 255, .38);
+  pointer-events: none;
+}
+.button > span:last-child {
+  right: 12px;
+  width: 32px;
+  height: 32px;
+  display: grid;
+  place-items: center;
+  border: 1px solid currentColor;
+  border-radius: 50%;
+  font-size: 17px;
+  opacity: .8;
+  transition: transform .25s ease, opacity .25s ease;
+}
+.button:hover > span:last-child { transform: rotate(45deg); opacity: 1; }
+.button-primary { background: linear-gradient(125deg, #ad686d, #a75f64 60%, #9d565d); }
+.button-primary:hover { background: linear-gradient(125deg, #9f5d62, #915157); }
+.button-outline { background: rgba(255, 252, 248, .67); }
+.button-outline:hover { background: #fff9f4; }
+.header-cta { box-shadow: 0 10px 25px rgba(91, 55, 56, .12); }
+.header-cta span { width: 24px; height: 24px; display: grid; place-items: center; border: 1px solid rgba(255, 255, 255, .46); border-radius: 50%; }
+.text-link span { width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid rgba(150, 81, 87, .3); border-radius: 50%; }
+.text-link:hover span { transform: rotate(45deg); }
+
+/* The complete original book image is framed like a small editorial print. */
+.book-layout { grid-template-columns: 54% 38%; gap: 8%; }
+.book-art {
+  width: min(100%, 560px);
+  min-height: 640px;
+  padding: 0;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+  isolation: isolate;
+}
+.book-art::before {
+  z-index: -2;
+  left: 3%; top: 5%; width: 91%; height: 90%;
+  border-radius: 55% 45% 51% 49% / 43% 54% 46% 57%;
+  background: radial-gradient(circle at 37% 33%, #f3e1da, #e8c9c2 68%, #f3e0d8);
+  transform: rotate(-7deg);
+}
+.book-art::after {
+  z-index: -1;
+  left: 7%; top: 2%; width: 88%; height: 92%;
+  border: 1px solid rgba(151, 83, 85, .29);
+  border-radius: 52% 48% 9% 12% / 22% 30% 12% 10%;
+  transform: rotate(6deg);
+}
+.book-image {
+  width: min(75%, 382px);
+  padding: 8px;
+  overflow: visible;
+  isolation: isolate;
+  background: rgba(255, 251, 247, .8);
+  border: 1px solid rgba(255, 255, 255, .8);
+  border-radius: 24px 9px 24px 9px;
+  transform: rotate(-2.5deg);
+  box-shadow: 0 30px 55px rgba(69, 45, 41, .18), 0 8px 16px rgba(69, 45, 41, .08);
+}
+.book-image::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  inset: 8px -11px -9px 13px;
+  border-radius: inherit;
+  background: #e7d1c8;
+  box-shadow: 0 13px 20px rgba(69, 45, 41, .08);
+  transform: rotate(4deg);
+}
+.book-image img {
+  width: 100%;
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border-radius: 17px 5px 17px 5px;
+}
+.book-art-note {
+  position: absolute;
+  right: 0;
+  bottom: 26px;
+  color: var(--rose-readable);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .2em;
+}
+.book-art-note i { font-style: normal; margin-inline: 9px; }
+.book-content { position: relative; }
+.book-content::before {
+  content: "";
+  position: absolute;
+  left: -28px;
+  top: -32px;
+  width: 70px;
+  height: 70px;
+  border-top: 1px solid rgba(151, 83, 85, .38);
+  border-left: 1px solid rgba(151, 83, 85, .38);
+  pointer-events: none;
+}
+
+/* The dedicated book route uses the same fully visible cover. */
+.book-subpage {
+  background-image:
+    url("flower-wash.svg"),
+    radial-gradient(ellipse at 80% 25%, rgba(217, 162, 162, .22), transparent 38%),
+    linear-gradient(130deg, #fcf7f1, #f0dfd7);
+  background-position: calc(100% + 120px) 75%, center, center;
+  background-size: 370px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+.subpage-grid { padding-block: 70px; }
+.subpage-book-art {
+  width: min(100%, 475px);
+  max-width: none;
+  min-height: 620px;
+  padding: 0;
+  margin-inline: auto;
+  display: grid;
+  place-items: center;
+}
+.subpage-book-art::before { inset: 8% 1%; }
+.subpage-book-art img {
+  width: min(76%, 350px);
+  height: auto;
+  aspect-ratio: auto;
+  object-fit: contain;
+  border: 8px solid rgba(255, 250, 246, .9);
+  border-radius: 23px 8px 23px 8px;
+  transform: rotate(-2.5deg);
+}
+.privacy-page {
+  background-image: url("flower-wash.svg"), radial-gradient(circle at 82% 23%, rgba(217, 162, 162, .18), transparent 32%), linear-gradient(120deg, #f8f3ee, #f2e6df);
+  background-position: calc(100% + 120px) 50%, center, center;
+  background-size: 330px auto, cover, cover;
+  background-repeat: no-repeat;
+}
+
+@media (max-width: 900px) {
+  .book-layout { grid-template-columns: 1fr; gap: 40px; }
+  .book-art { min-height: 610px; }
+  .book-content { max-width: 620px; }
+  .subpage-book-art { min-height: 560px; }
+}
+@media (max-width: 600px) {
+  .book-section { padding-block: 66px; }
+  .book-art { width: 100%; min-height: 510px; }
+  .book-image { width: min(76%, 300px); padding: 6px; }
+  .book-art-note { right: 3px; bottom: 7px; font-size: 8px; }
+  .book-content::before { left: -11px; top: -21px; width: 44px; height: 44px; }
+  .subpage-grid { padding-block: 65px; }
+  .subpage-book-art { min-height: 500px; }
+  .subpage-book-art img { width: min(82%, 300px); border-width: 6px; }
+  .region-section { background-size: 225px auto, cover, cover; }
+  .approach-section { background-position: -135px 100%, center, center; background-size: 250px auto, cover, cover; }
+  .faq-section { background-size: 235px auto, cover, cover; }
+}
+@media (max-width: 375px) {
+  .book-art { min-height: 450px; }
+  .book-image { width: min(74%, 255px); }
+  .subpage-book-art { min-height: 445px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .button:hover > span:last-child,
+  .text-link:hover span { transform: none; }
+}
