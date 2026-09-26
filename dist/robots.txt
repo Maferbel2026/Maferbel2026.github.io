@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /privacidad/
-Sitemap: https://femform-nutricion-online.ma-fer-13.chatgpt.site/sitemap.xml
+Sitemap: https://maferbel2026.github.io/sitemap.xml
