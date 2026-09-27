@@ -173,6 +173,13 @@
 .text-link span { width: 29px; height: 29px; display: grid; place-items: center; border: 1px solid rgba(150, 81, 87, .3); border-radius: 50%; }
 .text-link:hover span { transform: rotate(45deg); }
 
+/* Keep decorative icons as vectors so iOS cannot substitute emoji glyphs. */
+.icon-arrow, .icon-direction { display: inline-block; width: 1em; height: 1em; vertical-align: -.12em; }
+.hero-locations .icon-flag { display: block; width: 16px; height: 12px; }
+.region-number .icon-flag { display: inline-block; width: 1em; height: .75em; vertical-align: -.05em; }
+.region-symbol .icon-asterisk { display: inline-block; width: 50px; height: 58px; vertical-align: -.08em; }
+.femform-flourish .icon-asterisk { display: inline-block; width: 1em; height: 1em; vertical-align: -.08em; }
+
 /* The complete original book image is framed like a small editorial print. */
 .book-layout { grid-template-columns: 54% 38%; gap: 8%; }
 .book-art {
