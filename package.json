@@ -1,0 +1,9 @@
+{
+  "name": "femform-site",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "build": "node scripts/build-worker.mjs",
+    "test": "node --test worker/*.test.js ../integrations/consultas/Code.test.js"
+  }
+}
