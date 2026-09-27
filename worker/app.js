@@ -31,7 +31,7 @@ function dependencies(env, fetcher, now) {
   };
 }
 
-export function createApp({ fetcher = fetch, now = Date.now, uuid = () => crypto.randomUUID() } = {}) {
+export function createApp({ fetcher = (...args) => fetch(...args), now = Date.now, uuid = () => crypto.randomUUID() } = {}) {
   return async function handle(request, env) {
     const url = new URL(request.url);
     const origin = allowedOrigin(request, env);
