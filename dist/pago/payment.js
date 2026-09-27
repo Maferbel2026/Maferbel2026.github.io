@@ -11,7 +11,7 @@ async function checkPayment() {
   paymentBook.hidden = true;
   paymentTitle.innerHTML = 'Verificando <em>tu pago.</em>';
   paymentMessage.textContent = 'Estamos confirmando el pago antes de mostrarte tu enlace personal para elegir horario.';
-  if (!sessionId || !/^cs_test_[A-Za-z0-9]{10,}$/.test(sessionId)) {
+  if (!sessionId || !/^cs_(?:test|live)_[A-Za-z0-9]{10,}$/.test(sessionId)) {
     paymentMessage.textContent = 'No encontramos una sesión de pago válida. Si ya pagaste, escríbenos para ayudarte.';
     return;
   }

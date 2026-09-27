@@ -7,6 +7,7 @@ import { StripeGateway, verifiedPurchase } from './stripe.js';
 const SITE = 'https://femform.example';
 const ATTEMPT = '11111111-1111-4111-8111-111111111111';
 const SESSION = 'cs_test_1234567890abcdef';
+const LIVE_SESSION = 'cs_live_1234567890abcdef';
 const ENV = {
   SITE_ORIGIN: SITE,
   STRIPE_SECRET_KEY: 'sk_test_fixture',
@@ -73,10 +74,47 @@ test('Follow-up also uses its fixed MXN price and service code', async () => {
   assert.equal(response.status, 200);
 });
 
-test('Stripe gateway accepts only Sandbox secret or restricted keys', () => {
+test('Stripe gateway requires a key and session from its configured mode', async () => {
   assert.doesNotThrow(() => new StripeGateway('rk_test_fixture'));
   assert.throws(() => new StripeGateway('rk_live_fixture'));
   assert.throws(() => new StripeGateway('sk_live_fixture'));
+  assert.doesNotThrow(() => new StripeGateway('rk_live_fixture', fetch, 'live'));
+  assert.throws(() => new StripeGateway('sk_test_fixture', fetch, 'live'));
+  assert.throws(() => new StripeGateway('sk_live_fixture', fetch, 'invalid'));
+  assert.equal(verifiedPurchase(paidSession({ id: LIVE_SESSION, livemode: true }), 'live')?.amount, 800);
+  assert.equal(verifiedPurchase(paidSession({ id: LIVE_SESSION, livemode: true }), 'test'), null);
+  assert.equal(verifiedPurchase(paidSession(), 'live'), null);
+  await assert.rejects(() => new StripeGateway('rk_live_fixture', fetch, 'live').getSession(SESSION));
+});
+
+test('Live Checkout fixes MXN 600 and rejects a session marked as Sandbox', async () => {
+  const env = { ...ENV, STRIPE_MODE: 'live', STRIPE_SECRET_KEY: 'rk_live_fixture' };
+  let sheetCalls = 0;
+  const fetcher = async (url, options) => {
+    if (url.includes('script.google.com')) {
+      sheetCalls++;
+      return Response.json({ ok: true });
+    }
+    assert.equal(options.headers.Authorization, 'Bearer rk_live_fixture');
+    const params = new URLSearchParams(options.body);
+    assert.equal(params.get('line_items[0][price_data][unit_amount]'), '60000');
+    assert.equal(params.get('line_items[0][price_data][currency]'), 'mxn');
+    return Response.json({ id: LIVE_SESSION, livemode: true,
+      url: 'https://checkout.stripe.com/c/pay/live' });
+  };
+  const app = createApp({ fetcher, uuid: () => ATTEMPT });
+  const request = new Request(`${SITE}/api/checkout`, {
+    method: 'POST', headers: { Origin: SITE, 'Content-Type': 'application/json' },
+    body: JSON.stringify({ email: 'paciente@example.com', service: 'seguimiento', amount: 1 }),
+  });
+  assert.equal((await app(request, env)).status, 200);
+  assert.equal(sheetCalls, 2);
+
+  const mismatchedFetcher = async url => url.includes('script.google.com')
+    ? Response.json({ ok: true })
+    : Response.json({ ...paidSession(), id: LIVE_SESSION, livemode: false });
+  const mismatchedApp = createApp({ fetcher: mismatchedFetcher });
+  assert.equal((await mismatchedApp(new Request(`${SITE}/api/booking?session_id=${LIVE_SESSION}`), env)).status, 403);
 });
 
 test('Booking rejects unpaid and altered-price sessions before asking Sheets', async () => {

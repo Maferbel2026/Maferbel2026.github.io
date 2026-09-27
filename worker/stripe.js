@@ -3,10 +3,14 @@ import { getService, normalizeEmail } from './catalog.js';
 const API = 'https://api.stripe.com/v1';
 
 export class StripeGateway {
-  constructor(secret, fetcher = fetch) {
-    if (!/^(sk|rk)_test_/.test(secret || '')) throw new Error('Stripe Sandbox no está configurado.');
+  constructor(secret, fetcher = fetch, mode = 'test') {
+    if (!['test', 'live'].includes(mode) ||
+        !new RegExp(`^(?:sk|rk)_${mode}_[A-Za-z0-9]+$`).test(secret || '')) {
+      throw new Error('La clave de Stripe no corresponde al modo configurado.');
+    }
     this.secret = secret;
     this.fetcher = fetcher;
+    this.mode = mode;
   }
 
   async request(path, options = {}) {
@@ -48,29 +52,32 @@ export class StripeGateway {
       cancel_url: `${siteOrigin}/#consultas`,
     });
     const session = await this.request('/checkout/sessions', { method: 'POST', body: params });
-    if (session.livemode !== false || !session.id?.startsWith('cs_test_') ||
+    if (session.livemode !== (this.mode === 'live') ||
+        !new RegExp(`^cs_${this.mode}_[A-Za-z0-9]{10,}$`).test(session.id || '') ||
         !session.url?.startsWith('https://checkout.stripe.com/')) {
-      throw new Error('Stripe no devolvió una sesión de prueba válida.');
+      throw new Error('Stripe no devolvió una sesión del modo configurado.');
     }
     return session;
   }
 
   async getSession(id) {
-    if (typeof id !== 'string' || !/^cs_test_[A-Za-z0-9]{10,}$/.test(id)) {
+    if (typeof id !== 'string' ||
+        !new RegExp(`^cs_${this.mode}_[A-Za-z0-9]{10,}$`).test(id)) {
       throw new Error('Identificador de sesión inválido.');
     }
     return this.request(`/checkout/sessions/${encodeURIComponent(id)}`);
   }
 }
 
-export function verifiedPurchase(session) {
+export function verifiedPurchase(session, mode = 'test') {
+  if (!['test', 'live'].includes(mode)) return null;
   const serviceId = session?.metadata?.service;
   const service = getService(serviceId);
   const email = normalizeEmail(session?.customer_details?.email || session?.customer_email);
-  if (!service || !email || session?.livemode !== false || session?.mode !== 'payment' ||
+  if (!service || !email || session?.livemode !== (mode === 'live') || session?.mode !== 'payment' ||
       session?.status !== 'complete' || session?.payment_status !== 'paid' ||
       session?.currency !== 'mxn' || session?.amount_total !== service.amount ||
-      !/^cs_test_[A-Za-z0-9]{10,}$/.test(session?.id || '') ||
+      !new RegExp(`^cs_${mode}_[A-Za-z0-9]{10,}$`).test(session?.id || '') ||
       !/^[0-9a-f-]{36}$/.test(session?.client_reference_id || '')) return null;
   return {
     attemptId: session.client_reference_id,

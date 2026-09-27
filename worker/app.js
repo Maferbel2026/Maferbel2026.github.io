@@ -26,7 +26,7 @@ function allowedOrigin(request, env) {
 function dependencies(env, fetcher, now) {
   if (!/^https:\/\/[^/]+$/.test(env.SITE_ORIGIN || '')) throw new Error('SITE_ORIGIN inválido.');
   return {
-    stripe: new StripeGateway(env.STRIPE_SECRET_KEY, fetcher),
+    stripe: new StripeGateway(env.STRIPE_SECRET_KEY, fetcher, env.STRIPE_MODE || 'test'),
     sheets: new SheetsGateway(env.SHEETS_ENDPOINT, env.SHEETS_SIGNING_SECRET, fetcher, now),
   };
 }
@@ -79,7 +79,7 @@ export function createApp({ fetcher = (...args) => fetch(...args), now = Date.no
       try {
         const { stripe, sheets } = dependencies(env, fetcher, now);
         const session = await stripe.getSession(url.searchParams.get('session_id'));
-        const purchase = verifiedPurchase(session);
+        const purchase = verifiedPurchase(session, stripe.mode);
         if (!purchase) return json({ error: 'El pago aún no está confirmado.' }, 403, origin);
         const result = await sheets.call('payment_confirm', purchase);
         if (!/^https:\/\/calendly\.com\//.test(result.bookingUrl || '')) {
@@ -105,7 +105,7 @@ export function createApp({ fetcher = (...args) => fetch(...args), now = Date.no
       try {
         const { stripe, sheets } = dependencies(env, fetcher, now);
         const session = await stripe.getSession(event.data?.object?.id);
-        const purchase = verifiedPurchase(session);
+        const purchase = verifiedPurchase(session, stripe.mode);
         if (!purchase) return json({ received: true });
         await sheets.call('payment_confirm', purchase);
         return json({ received: true });

@@ -1,10 +1,10 @@
-# FEMFORM: activación de pagos en Sandbox
+# FEMFORM: paso de Stripe Sandbox a Live
 
-El código usa importes reales del catálogo FEMFORM y no contiene valores de ejemplo. **No activar pagos en vivo ni publicar el nuevo flujo hasta completar y probar esta lista.**
+La integración Sandbox ya fue probada con un pago simulado. El código usa importes fijos y no contiene claves ni valores de ejemplo. El cambio a Live debe mantener `STRIPE_MODE=test` hasta completar la configuración de la cuenta, el webhook y los secretos Live.
 
 ## Valores a reemplazar
 
-No hay placeholders en el código. `mode=payment`, URLs de retorno y cancelación, y los dos importes MXN ya están definidos en [stripe.js](worker/stripe.js). Se llama a la API REST de Stripe sin fijar una versión de SDK. `payment_method_collection` se omite: Stripe lo permite solo para suscripciones y estos son pagos únicos.
+No hay placeholders en el código. `mode=payment`, URLs de retorno y cancelación, y los dos importes MXN ya están definidos en [stripe.js](worker/stripe.js). El Worker coteja `STRIPE_MODE` con la clave, `livemode` y el ID de sesión. Se llama a la API REST de Stripe sin fijar una versión de SDK. `payment_method_collection` se omite: Stripe lo permite solo para suscripciones y estos son pagos únicos.
 
 ## Parámetros de Checkout configurados
 
@@ -24,15 +24,15 @@ No hay placeholders en el código. `mode=payment`, URLs de retorno y cancelació
 | `success_url` | URL del Site `/pago/?session_id={CHECKOUT_SESSION_ID}` |
 | `cancel_url` | URL del Site `/#consultas` |
 
-## Configuración pendiente
+## Configuración pendiente para Live
 
-1. En Stripe **Sandbox/Test**, crear preferentemente una clave restringida `rk_test_...` con permiso para crear y consultar Checkout Sessions, o usar temporalmente una clave `sk_test_...` si la cuenta no permite restringirla; registrar el endpoint `https://femform-nutricion-online.ma-fer-13.chatgpt.site/api/stripe-webhook` para `checkout.session.completed` y `checkout.session.async_payment_succeeded`, y obtener su secreto `whsec_...`.
-2. En Calendly, disponer de un token personal con permiso `shares:write` y de la URI API de **un único evento individual** compatible con las duraciones 60 y 45 minutos. Probar que `/shares` genera un enlace de un solo uso por consulta.
-3. Desplegar [Code.gs](../integrations/consultas/Code.gs) como **nuevo** Apps Script Web App ejecutado como propietaria, accesible a cualquiera. Mantener privado el archivo de Sheets y ejecutar `setupConsultationTabs()` para crear solamente `Leads` y `Consultas`. En las propiedades del script establecer `FEMFORM_SIGNING_SECRET`, `CALENDLY_TOKEN` y `CALENDLY_EVENT_TYPE_URI`. No reutilizar el Web App público de la lista del libro.
-4. En los secretos del runtime Sites configurar `STRIPE_SECRET_KEY`, `STRIPE_WEBHOOK_SECRET`, `SHEETS_ENDPOINT` (URL `/exec`) y `SHEETS_SIGNING_SECRET` (el mismo secreto de firma del Apps Script). En variables no secretas configurar `SITE_ORIGIN=https://femform-nutricion-online.ma-fer-13.chatgpt.site` y `EXTRA_ORIGIN=https://maferbel2026.github.io` si se mantiene la copia de GitHub Pages. Nunca escribir claves en `dist`, Git o el chat.
-5. Probar en Sandbox: envío de correo crea `Leads` antes del salto a Stripe; cancelación no crea `Consultas`; pago de prueba registra una sola fila con código, monto, fecha y enlace individual; recargar retorno y repetir webhook no duplica la fila; URL de éxito inventada o sesión impaga no abre Calendly. Comparar ambas duraciones y probar en móvil.
-6. Antes del corte público, desactivar o sustituir los dos eventos/URLs antiguos de Calendly que aún permiten reservar sin pagar. Coordinar este paso con la propietaria para no perder reservas existentes. Revisar vista previa y publicar solo tras su aprobación.
+1. La propietaria completa **Activate Payments** en Stripe con sus datos de negocio, identidad y banco. Estos datos y cualquier aceptación de términos se ingresan solamente en Stripe.
+2. Desplegar la nueva versión de [Code.gs](../integrations/consultas/Code.gs) en el Web App ya existente. La única ampliación es aceptar IDs `cs_live_` además de `cs_test_`; la hoja, firma y Calendly se conservan.
+3. En Stripe **Live**, crear preferentemente una clave restringida `rk_live_...` con permiso de escritura para crear Checkout Sessions y lectura para recuperar sesiones. Crear un destino webhook **Live** hacia `https://femform-nutricion-online.ma-fer-13.chatgpt.site/api/stripe-webhook` que escuche `checkout.session.completed` y `checkout.session.async_payment_succeeded`. Guardar el secreto de firma Live. El destino de Sandbox es independiente.
+4. En Sites, establecer `STRIPE_SECRET_KEY` con la clave Live y `STRIPE_WEBHOOK_SECRET` con el secreto del webhook Live; fijar `STRIPE_MODE=live` en el mismo corte. Mantener `SHEETS_ENDPOINT`, `SHEETS_SIGNING_SECRET`, `SITE_ORIGIN` y `EXTRA_ORIGIN`. No escribir claves en Git, recursos públicos ni el chat.
+5. Comprobar que Live crea una sesión **impaga** por $800 MXN y otra por $600 MXN, y que ninguna muestra agenda antes de pagar. Un ID de Sandbox tampoco debe abrir agenda en Live. El pago exitoso de extremo a extremo requiere que la titular realice una transacción real; no usar tarjetas de prueba en Live.
+6. Confirmar que el Site y GitHub Pages usan el Worker actualizado. Revisar los primeros eventos Live y filas de `Consultas`; si el webhook falla, detener nuevos cobros y corregir antes de reabrir Checkout.
 
-No se requiere D1/KV ni plan Cloudflare de pago. El Worker contiene la lógica; Sheets es el registro durable. Si el runtime gratuito alcanza su cuota, las solicitudes fallan y no se abren agendas sin verificación.
+El Worker contiene la lógica; Sheets es el registro durable. No se requiere D1/KV ni plan Cloudflare de pago. Si el runtime gratuito alcanza su cuota, las solicitudes fallan y no se abren agendas sin verificación.
 
-Prueba de tarjeta en Stripe Sandbox: `4242 4242 4242 4242`, fecha futura, CVC cualquiera. Fuente: [documentación de pruebas de Stripe](https://docs.stripe.com/testing).
+Para las pruebas Sandbox se utilizó la tarjeta de prueba de [Stripe](https://docs.stripe.com/testing); esas tarjetas no funcionan para cobros reales.
