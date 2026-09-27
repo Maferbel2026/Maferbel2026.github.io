@@ -1,6 +1,14 @@
 # FEMFORM: paso de Stripe Sandbox a Live
 
-La integración Sandbox ya fue probada con un pago simulado. El código usa importes fijos y no contiene claves ni valores de ejemplo. El cambio a Live debe mantener `STRIPE_MODE=test` hasta completar la configuración de la cuenta, el webhook y los secretos Live.
+La integración Sandbox fue probada con un pago simulado. El 27 de septiembre de 2026 se activó Live tras verificar la cuenta, el webhook y los secretos del servidor. El código usa importes fijos y no contiene claves.
+
+## Estado de la activación
+
+- Stripe muestra `Payments` y `Payouts` activos, sin tareas de cuenta pendientes al momento del corte.
+- La clave restringida Live permite únicamente `Checkout Sessions: Write`; el webhook Live escucha `checkout.session.completed` y `checkout.session.async_payment_succeeded`.
+- Sites usa `STRIPE_MODE=live` y guarda la clave API y el secreto de firma como secretos. Apps Script versión 2 acepta sesiones `cs_live_` y conserva la hoja y Calendly existentes.
+- Se crearon sesiones Live **impagas** por 800 y 600 MXN. Stripe devolvió `livemode=true`, `currency=mxn` y los importes correctos. La agenda respondió 403 para ambas. Un evento sintético firmado de sesión impaga devolvió 200 sin otorgar agenda; una firma falsa devolvió 400.
+- No se ha realizado un cargo real. La confirmación de una compra real, la fila `Consultas` y el enlace individual de Calendly deberán observarse en el primer pago de la titular o cliente.
 
 ## Valores a reemplazar
 
@@ -24,7 +32,7 @@ No hay placeholders en el código. `mode=payment`, URLs de retorno y cancelació
 | `success_url` | URL del Site `/pago/?session_id={CHECKOUT_SESSION_ID}` |
 | `cancel_url` | URL del Site `/#consultas` |
 
-## Configuración pendiente para Live
+## Procedimiento de configuración o recuperación de Live
 
 1. La propietaria completa **Activate Payments** en Stripe con sus datos de negocio, identidad y banco. Estos datos y cualquier aceptación de términos se ingresan solamente en Stripe.
 2. Desplegar la nueva versión de [Code.gs](../integrations/consultas/Code.gs) en el Web App ya existente. La única ampliación es aceptar IDs `cs_live_` además de `cs_test_`; la hoja, firma y Calendly se conservan.
