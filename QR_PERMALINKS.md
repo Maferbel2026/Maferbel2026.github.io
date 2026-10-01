@@ -1,6 +1,6 @@
 # Enlaces fijos de FEMFORM para libro y ebook
 
-Estas son las URLs fijas previstas para los códigos QR:
+Estas son las URLs exactas codificadas en los QR:
 
 | Uso | URL fija | Destino actual |
 | --- | --- | --- |
@@ -32,4 +32,11 @@ Elige una clave corta en minúsculas, por ejemplo `curso`. Añade una línea `cu
 
 Un enlace de GitHub no es una garantía de permanencia absoluta: depende de mantener esa cuenta y de que GitHub Pages siga disponible. Un dominio propio comprado **antes** de imprimir daría más control sobre el nombre, pero implicaría renovarlo periódicamente. Comprar un dominio después no cambia la URL que ya quedó dentro del QR.
 
-Los SVG y PNG de impresión se prepararán después de comprobar la ruta pública. Se harán con corrección de errores H, un margen blanco de cuatro módulos y el corazón rosa pequeño aprobado. Antes de mandar el libro a imprenta, imprime una prueba al tamaño real y escanéala con más de un teléfono.
+## Archivos para impresión
+
+| Uso | Vector SVG | PNG de alta resolución |
+| --- | --- | --- |
+| Libro físico | [`print/qr/femform-qr-libro.svg`](print/qr/femform-qr-libro.svg) | [`print/qr/femform-qr-libro.png`](print/qr/femform-qr-libro.png) |
+| Ebook | [`print/qr/femform-qr-ebook.svg`](print/qr/femform-qr-ebook.svg) | [`print/qr/femform-qr-ebook.png`](print/qr/femform-qr-ebook.png) |
+
+Ambos QR usan corrección de errores H, módulos negros sobre blanco, un margen libre de cuatro módulos y un corazón rosa empolvado pequeño en el centro. Los SVG tienen un tamaño nominal de 45 × 45 mm y pueden ampliarse sin perder nitidez; los PNG miden 3600 × 3600 px. Los prototipos y archivos finales se decodificaron automáticamente a varios tamaños hasta 135 × 135 px. Antes de mandar el libro a imprenta, imprime una prueba al tamaño real y escanéala con más de un teléfono.
