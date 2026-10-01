@@ -1,0 +1,60 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="referrer" content="no-referrer">
+  <title>Continuando a FEMFORM</title>
+  <style>
+    :root { color-scheme: light; }
+    body { min-height: 100vh; margin: 0; display: grid; place-items: center; background: #f8f3ee; color: #2c2828; font: 16px/1.5 system-ui, sans-serif; }
+    main { width: min(30rem, calc(100% - 3rem)); text-align: center; }
+    .brand { color: #a65e68; font-size: .82rem; letter-spacing: .3em; }
+    h1 { font-family: Georgia, serif; font-size: clamp(2rem, 7vw, 3.2rem); font-weight: 400; }
+    a { color: #8f4d58; text-underline-offset: .2em; }
+  </style>
+</head>
+<body>
+  <main>
+    <p class="brand">FEMFORM</p>
+    <h1 id="title">Abriendo FEMFORM…</h1>
+    <p id="message">Si la página no se abre automáticamente, usa el enlace siguiente.</p>
+    <p><a id="continue" href="https://femform-nutricion-online.ma-fer-13.chatgpt.site/">Continuar a FEMFORM</a></p>
+    <noscript><p>Para continuar automáticamente, activa JavaScript en tu navegador.</p></noscript>
+  </main>
+  <script>
+    // Cambia solo la URL a la derecha de cada clave cuando cambie el destino.
+    // No cambies las claves: son parte de los QR impresos.
+    const destinations = Object.freeze({
+      book: 'https://femform-nutricion-online.ma-fer-13.chatgpt.site/',
+      ebook: 'https://femform-nutricion-online.ma-fer-13.chatgpt.site/',
+    });
+
+    const key = new URLSearchParams(window.location.search).get('to');
+    const hasKey = key !== null && Object.prototype.hasOwnProperty.call(destinations, key);
+    const title = document.getElementById('title');
+    const message = document.getElementById('message');
+    const continueLink = document.getElementById('continue');
+    continueLink.href = destinations.book;
+
+    if (!hasKey) {
+      title.textContent = 'Enlace no disponible';
+      message.textContent = 'Este enlace no está configurado. Puedes visitar FEMFORM desde el botón siguiente.';
+    } else {
+      try {
+        const target = new URL(destinations[key]);
+        if (target.protocol !== 'https:' ||
+            (target.origin === window.location.origin && target.pathname === window.location.pathname)) {
+          throw new Error('Destino inválido');
+        }
+        continueLink.href = target.href;
+        window.location.replace(target.href);
+      } catch (_) {
+        title.textContent = 'Enlace no disponible';
+        message.textContent = 'No pudimos abrir este enlace. Puedes visitar FEMFORM desde el botón siguiente.';
+      }
+    }
+  </script>
+</body>
+</html>
