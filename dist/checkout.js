@@ -8,7 +8,7 @@ const checkoutServices = {
   primera: 'Primera consulta nutricional · 60 minutos · $800 MXN',
   seguimiento: 'Consulta de seguimiento · 45 minutos · $600 MXN',
 };
-const checkoutApiOrigin = location.hostname === 'maferbel2026.github.io'
+const checkoutApiOrigin = ['maferbel2026.github.io', 'pages.femform.mx'].includes(location.hostname)
   ? 'https://femform-nutricion-online.ma-fer-13.chatgpt.site' : location.origin;
 let selectedService = null;
 let checkoutOpener = null;

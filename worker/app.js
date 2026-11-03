@@ -19,7 +19,8 @@ function json(value, status = 200, origin = null) {
 
 function allowedOrigin(request, env) {
   const origin = request.headers.get('Origin');
-  const allowed = [env.SITE_ORIGIN, env.EXTRA_ORIGIN].filter(Boolean);
+  const additional = (env.ADDITIONAL_ORIGINS || '').split(',').map(value => value.trim());
+  const allowed = [env.SITE_ORIGIN, env.EXTRA_ORIGIN, ...additional].filter(Boolean);
   return origin && allowed.includes(origin) ? origin : null;
 }
 

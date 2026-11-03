@@ -52,6 +52,24 @@ test('Checkout saves the lead before Stripe and fixes amount on the server', asy
   assert.deepEqual(calls, ['lead_start', 'stripe', 'lead_session']);
 });
 
+test('Additional exact origins allow the new domains without admitting lookalikes', async () => {
+  const app = createApp();
+  const env = { ...ENV, ADDITIONAL_ORIGINS: 'https://femform.mx, https://pages.femform.mx' };
+  for (const origin of ['https://femform.mx', 'https://pages.femform.mx', SITE]) {
+    const response = await app(new Request(`${SITE}/api/checkout`, {
+      method: 'OPTIONS', headers: { Origin: origin },
+    }), env);
+    assert.equal(response.status, 204);
+    assert.equal(response.headers.get('Access-Control-Allow-Origin'), origin);
+  }
+  for (const origin of ['https://fakefemform.mx', 'http://femform.mx', 'https://pages.femform.mx.evil.test']) {
+    const response = await app(new Request(`${SITE}/api/checkout`, {
+      method: 'OPTIONS', headers: { Origin: origin },
+    }), env);
+    assert.equal(response.status, 403);
+  }
+});
+
 test('Follow-up also uses its fixed MXN price and service code', async () => {
   const fetcher = async (url, options) => {
     if (url.includes('script.google.com')) {
