@@ -4,8 +4,8 @@ Estas son las URLs exactas codificadas en los QR:
 
 | Uso | URL fija | Destino actual |
 | --- | --- | --- |
-| Libro físico | `https://maferbel2026.github.io/go/?to=book` | `https://femform-nutricion-online.ma-fer-13.chatgpt.site/` |
-| Ebook | `https://maferbel2026.github.io/go/?to=ebook` | `https://femform-nutricion-online.ma-fer-13.chatgpt.site/` |
+| Libro físico | `https://maferbel2026.github.io/go/?to=book` | `https://femform.mx/` |
+| Ebook | `https://maferbel2026.github.io/go/?to=ebook` | `https://femform.mx/` |
 
 El QR siempre abre la URL de GitHub Pages. La página `dist/go/index.html` lee la clave `to` y envía al destino correspondiente con JavaScript. Solo admite claves incluidas en su objeto `destinations`: no acepta una URL arbitraria desde el parámetro.
 
@@ -28,7 +28,7 @@ Elige una clave corta en minúsculas, por ejemplo `curso`. Añade una línea `cu
 - La cuenta GitHub `Maferbel2026` y el repositorio `Maferbel2026.github.io`, con GitHub Pages activo.
 - La ruta `/go/` y las claves `book` y `ebook` exactamente como se imprimieron.
 - El acceso a GitHub y una copia de este proyecto. Si más adelante cambias el dominio principal de FEMFORM, deja esta ruta de GitHub Pages activa y modifica únicamente los destinos.
-- Evita configurar un dominio personalizado en **este** GitHub Pages si eso hace que la URL `maferbel2026.github.io` redirija al dominio nuevo. El QR impreso necesita que su URL de GitHub siga abriendo.
+- La copia de GitHub Pages usa `pages.femform.mx`; el host `maferbel2026.github.io` puede redirigir a ese subdominio, pero debe conservar `/go/?to=book` y `/go/?to=ebook`. Compruébalo después de cualquier cambio de DNS o Pages.
 
 Un enlace de GitHub no es una garantía de permanencia absoluta: depende de mantener esa cuenta y de que GitHub Pages siga disponible. Un dominio propio comprado **antes** de imprimir daría más control sobre el nombre, pero implicaría renovarlo periódicamente. Comprar un dominio después no cambia la URL que ya quedó dentro del QR.
 

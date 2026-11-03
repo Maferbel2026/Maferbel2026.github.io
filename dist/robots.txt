@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 Disallow: /privacidad/
-Sitemap: https://maferbel2026.github.io/sitemap.xml
+Sitemap: https://femform.mx/sitemap.xml

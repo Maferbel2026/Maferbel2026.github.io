@@ -4,7 +4,7 @@ const paymentBook = document.querySelector('#payment-book');
 const paymentRetry = document.querySelector('#payment-retry');
 const sessionId = new URLSearchParams(location.search).get('session_id');
 const paymentApiOrigin = ['maferbel2026.github.io', 'pages.femform.mx'].includes(location.hostname)
-  ? 'https://femform-nutricion-online.ma-fer-13.chatgpt.site' : location.origin;
+  ? 'https://femform.mx' : location.origin;
 
 async function checkPayment() {
   paymentRetry.hidden = true;

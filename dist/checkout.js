@@ -9,7 +9,7 @@ const checkoutServices = {
   seguimiento: 'Consulta de seguimiento · 45 minutos · $600 MXN',
 };
 const checkoutApiOrigin = ['maferbel2026.github.io', 'pages.femform.mx'].includes(location.hostname)
-  ? 'https://femform-nutricion-online.ma-fer-13.chatgpt.site' : location.origin;
+  ? 'https://femform.mx' : location.origin;
 let selectedService = null;
 let checkoutOpener = null;
 
