@@ -13,7 +13,7 @@ El QR siempre abre la URL de GitHub Pages. La página `dist/go/index.html` lee l
 
 1. Abre [`dist/go/index.html`](dist/go/index.html) en este proyecto.
 2. Localiza el bloque `const destinations`. Cambia **solo la URL a la derecha** de `book` o `ebook`, manteniendo la clave y las comillas. Usa una URL `https://` completa.
-3. Publica el cambio en el repositorio `Maferbel2026/Maferbel2026.github.io`. El workflow de GitHub Pages publica la carpeta `dist/` al subir el cambio a `main`; espera a que termine correctamente. No hace falta cambiar el dominio principal ni publicar de nuevo el Site de FEMFORM para actualizar esta ruta.
+3. Publica el cambio en `Maferbel2026/Maferbel2026.github.io` **y en** `Maferbel2026/femform-pages-backup`. Los dos workflows de GitHub Pages publican `dist/` al subir a `main`; espera a que ambos terminen correctamente. No hace falta cambiar el dominio principal ni publicar de nuevo el Site de FEMFORM para actualizar esta ruta.
 4. Abre las dos URLs de la tabla en una ventana privada. Comprueba que solo la clave modificada lleve al destino nuevo. Prueba también `https://maferbel2026.github.io/go/?to=inexistente`: debe mostrar «Enlace no disponible» sin enviarte a una dirección externa.
 5. Escanea los QR ya impresos con un teléfono y confirma que llegan a las páginas esperadas. No regeneres los QR existentes.
 
@@ -25,10 +25,11 @@ Elige una clave corta en minúsculas, por ejemplo `curso`. Añade una línea `cu
 
 ## Qué debes conservar durante la vida del libro
 
-- La cuenta GitHub `Maferbel2026` y el repositorio `Maferbel2026.github.io`, con GitHub Pages activo.
+- La cuenta GitHub `Maferbel2026` y el repositorio `Maferbel2026.github.io`, con GitHub Pages activo y **sin dominio personalizado**. Así la URL impresa no depende de renovar `femform.mx`.
 - La ruta `/go/` y las claves `book` y `ebook` exactamente como se imprimieron.
 - El acceso a GitHub y una copia de este proyecto. Si más adelante cambias el dominio principal de FEMFORM, deja esta ruta de GitHub Pages activa y modifica únicamente los destinos.
-- La copia de GitHub Pages usa `pages.femform.mx`; el host `maferbel2026.github.io` puede redirigir a ese subdominio, pero debe conservar `/go/?to=book` y `/go/?to=ebook`. Compruébalo después de cualquier cambio de DNS o Pages.
+- El repositorio separado `Maferbel2026/femform-pages-backup` sirve la copia en `pages.femform.mx`. Su DNS en GoDaddy es un CNAME `pages` → `maferbel2026.github.io`; el dominio personalizado se asigna **solo** a este repositorio de respaldo.
+- Si cambias un destino de `/go/`, actualiza y publica ambos repositorios: un navegador que haya guardado una redirección anterior de GitHub hacia `pages.femform.mx` todavía puede pasar por la copia. Mantén ese subdominio operativo durante la transición y comprueba las dos rutas.
 
 Un enlace de GitHub no es una garantía de permanencia absoluta: depende de mantener esa cuenta y de que GitHub Pages siga disponible. Un dominio propio comprado **antes** de imprimir daría más control sobre el nombre, pero implicaría renovarlo periódicamente. Comprar un dominio después no cambia la URL que ya quedó dentro del QR.
 
